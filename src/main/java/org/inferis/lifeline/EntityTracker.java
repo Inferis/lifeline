@@ -107,6 +107,6 @@ public class EntityTracker {
     }
 
     private Box getPlayerBox() {
-        return client.player.getBoundingBox().expand(4 * 16); // 4 chunks
+        return client.player.getBoundingBox().expand(3 * 16); // 4 chunks
     }
 }
