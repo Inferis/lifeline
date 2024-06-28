@@ -50,6 +50,10 @@ public class EntityTracker {
 
         return entities;
     }
+    
+    public boolean isTracking(LivingEntity entity) {
+        return trackedEntities.containsKey(entity.getUuid());
+    }
 
     private void trackNewEntities() {
         // Add new entities if needed
