@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
+import org.inferis.lifeline.commands.LifeLineCommands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ public class LifeLine implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		LifeLineCommands.registerCommands();
 		ClientTickEvents.END_CLIENT_TICK.register(EntityTracker::tick);
 	}
 }
