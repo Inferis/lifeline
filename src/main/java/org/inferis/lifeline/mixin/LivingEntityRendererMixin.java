@@ -31,12 +31,12 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
     @Inject(at=@At("TAIL"), method="render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
     public void render(E livingEntity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, CallbackInfo callbackInfo) {
 		if (!EntityTracker.INSTANCE.isTracking(livingEntity)) {
-			LifeLine.LOGGER.info("Not tracking + " + livingEntity.getUuid() + " (" + livingEntity.getName() + ")");
 			return;
 		}
 
         // var distance = this.dispatcher.getSquaredDistanceToCamera(livingEntity);
 
+		var scale = 0.025f;
 		var health = MathHelper.ceil(livingEntity.getHealth());
         var maxHealth = MathHelper.ceil(livingEntity.getMaxHealth());
         var absorption = MathHelper.ceil(livingEntity.getAbsorptionAmount());
@@ -46,13 +46,13 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
 
 		matrixStack.translate(0, livingEntity.getHeight() + 0.5, 0);
 		matrixStack.multiply(this.dispatcher.getRotation());
+		matrixStack.scale(scale, -scale, scale);
 
 		var client = MinecraftClient.getInstance();
 		var textRenderer = client.textRenderer;
         var x = -textRenderer.getWidth(label) / 2.0f;
         var model = matrixStack.peek().getPositionMatrix();
-        textRenderer.draw(label, x, 0, Color.WHITE.getRGB(), true, model, vertexConsumerProvider, TextRenderer.TextLayerType.NORMAL, 0, light);
-		LifeLine.LOGGER.info(livingEntity.getUuid() + " (" + livingEntity.getName() + ") " + label);
+        textRenderer.draw(label, x, 0, Color.WHITE.getRGB(), false, model, vertexConsumerProvider, TextRenderer.TextLayerType.NORMAL, 0, light);
 
 		matrixStack.pop();
 	}
