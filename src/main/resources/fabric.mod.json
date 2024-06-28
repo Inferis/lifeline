@@ -15,7 +15,7 @@
 	"icon": "assets/lifeline/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
+		"client": [
 			"org.inferis.lifeline.LifeLine"
 		]
 	},
