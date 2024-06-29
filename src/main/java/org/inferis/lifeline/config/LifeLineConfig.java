@@ -29,6 +29,7 @@ public class LifeLineConfig {
         DAMAGED
     }
     public DisplayCondition displayCondition = DisplayCondition.DAMAGED;
+    public float scale = 1.0f;
 
     public void save() {
         var file = new File(CONFIG_FILE);
@@ -55,7 +56,8 @@ public class LifeLineConfig {
             renderingEnabled = loadedConfig.renderingEnabled;
             displayMode = loadedConfig.displayMode;
             displayCondition = loadedConfig.displayCondition;
-            
+            scale = loadedConfig.scale;
+
             return true;
         }
         catch (FileNotFoundException e) {

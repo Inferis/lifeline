@@ -40,6 +40,10 @@ public class LifeLineModMenuIntegration implements ModMenuApi {
                 .setTooltip(Text.translatable("lifeline.config.display_condition.tooltip"))
                 .setDefaultValue(DisplayCondition.DAMAGED)
                 .setSaveConsumer(value -> { config.displayCondition = value; config.save(); })
+                .build())
+            .addEntry(entryBuilder.startIntSlider(Text.translatable("lifeline.config.scale"), (int)(config.scale * 100), 10, 200)
+                .setDefaultValue(100)
+                .setSaveConsumer(value -> { config.scale = value / 100.0f; config.save(); })
                 .build());
 
         return builder.build();

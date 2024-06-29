@@ -64,6 +64,8 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
 		matrixStack.multiply(this.dispatcher.getRotation());
 		// we need to scale down a bit too.
 		matrixStack.scale(Scale.world, Scale.world, Scale.world);
+		// Apply configured scale
+		matrixStack.scale(LifeLine.CONFIG.scale, LifeLine.CONFIG.scale, LifeLine.CONFIG.scale);
 
 		switch (LifeLine.CONFIG.displayMode) {
 			case LifeLineConfig.DisplayMode.BOTH: 
