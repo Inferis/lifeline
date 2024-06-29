@@ -3,13 +3,14 @@
 	"id": "lifeline",
 	"version": "${version}",
 	"name": "LifeLine",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "This is a simple mod that displays the health status of a mob/player above its head.",
 	"authors": [
-		"Me!"
+		"Inferis"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Inferis/lifeline",
+		"sources": "https://github.com/Inferis/lifeline",
+		"issues": "https://github.com/Inferis/lifeline/issues"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/lifeline/icon.png",
