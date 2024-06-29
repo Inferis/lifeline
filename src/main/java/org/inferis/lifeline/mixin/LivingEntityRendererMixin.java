@@ -2,6 +2,7 @@ package org.inferis.lifeline.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.GameRenderer;
@@ -22,10 +23,10 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.Color;
 
-import org.inferis.lifeline.EntityTracker;
 import org.inferis.lifeline.HeartType;
 import org.inferis.lifeline.LifeLine;
 import org.inferis.lifeline.config.LifeLineConfig;
+import org.inferis.lifeline.config.LifeLineConfig.DisplayCondition;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -47,7 +48,8 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
 
     @Inject(at=@At("TAIL"), method="render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V")
     public void render(E livingEntity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, CallbackInfo callbackInfo) {
-		if (!EntityTracker.INSTANCE.isTracking(livingEntity)) {
+		final var client = MinecraftClient.getInstance(); 
+		if (!shouldRenderOverEntity(livingEntity, client.player)) {
 			return;
 		}
 
@@ -221,4 +223,19 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
 			matrixStack.translate(0, 10 * Scale.world, 0);
 		}
 	}
+
+	private boolean shouldRenderOverEntity(LivingEntity entity, ClientPlayerEntity player) {
+        var shouldRender = entity != null &&
+            !entity.isRegionUnloaded() &&
+            entity.isAlive() &&
+            entity.isLiving() &&
+            player.getVehicle() != entity &&
+            !entity.isInvisibleTo(player);
+
+        if (shouldRender && LifeLine.CONFIG.displayCondition == DisplayCondition.DAMAGED) {
+            shouldRender = entity.getHealth() < entity.getMaxHealth();
+        }
+
+        return shouldRender;
+    }
 }
