@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"client": [
 			"org.inferis.lifeline.LifeLine"
+		],
+		"modmenu": [
+			"org.inferis.lifeline.config.LifeLineModMenuIntegration"
 		]
 	},
 	"mixins": [
