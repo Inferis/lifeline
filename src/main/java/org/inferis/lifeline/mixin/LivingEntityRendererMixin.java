@@ -68,11 +68,12 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
 		switch (LifeLine.CONFIG.displayMode) {
 			case LifeLineConfig.DisplayMode.BOTH: 
 				drawLabel(livingEntity, matrixStack, vertexConsumerProvider, light);
+				// Move up a bit
 				matrixStack.translate(0, 10.0, 0);
-				drawHearts(livingEntity, matrixStack, vertexConsumerProvider, light);
+				drawHearts(livingEntity, matrixStack);
 				break;
 			case LifeLineConfig.DisplayMode.HEARTS:
-				drawHearts(livingEntity, matrixStack, vertexConsumerProvider, light);
+				drawHearts(livingEntity, matrixStack);
 				break;
 			case LifeLineConfig.DisplayMode.LABEL:
 				drawLabel(livingEntity, matrixStack, vertexConsumerProvider, light);
@@ -91,6 +92,9 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
 		final var health = MathHelper.ceil(livingEntity.getHealth()) / 2.0;
         final var maxHealth = MathHelper.ceil(livingEntity.getMaxHealth()) / 2.0;
         final var absorption = MathHelper.ceil(livingEntity.getAbsorptionAmount()) / 2.0;
+
+		// Some tricky to get the numbers right. We don't want "2.0" but "2", 
+		// but we do want "2.5".
 		var label = "%1.0f".formatted(maxHealth);
 		if ((int)(health + absorption) == (health + absorption)) {
 			label = "%1.0f/%s".formatted(health + absorption, label);
@@ -98,7 +102,6 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
 		else {
 			label = "%1.1f/%s".formatted(health + absorption, label);
 		}
-		// final var label = "%2.1f/%f".formatted(health + absorption,  maxHealth);
 
 		final var client = MinecraftClient.getInstance();
 		final var textRenderer = client.textRenderer;
@@ -117,7 +120,7 @@ public abstract class LivingEntityRendererMixin<E extends LivingEntity, EM exten
 		matrixStack.pop();
 	}
 
-	private void drawHearts(E livingEntity, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light) {
+	private void drawHearts(E livingEntity, MatrixStack matrixStack) {
 		matrixStack.push();
 
 		final var health = MathHelper.ceil(livingEntity.getHealth());
