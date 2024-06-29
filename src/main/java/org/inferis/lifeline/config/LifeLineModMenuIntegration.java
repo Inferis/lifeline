@@ -1,6 +1,7 @@
 package org.inferis.lifeline.config;
 
 import org.inferis.lifeline.LifeLine;
+import org.inferis.lifeline.config.LifeLineConfig.DisplayCondition;
 import org.inferis.lifeline.config.LifeLineConfig.DisplayMode;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
@@ -34,6 +35,11 @@ public class LifeLineModMenuIntegration implements ModMenuApi {
             .addEntry(entryBuilder.startEnumSelector(Text.translatable("lifeline.config.display_mode"), DisplayMode.class, config.displayMode)
                 .setDefaultValue(DisplayMode.HEARTS)
                 .setSaveConsumer(value -> { config.displayMode = value; config.save(); })
+                .build())
+            .addEntry(entryBuilder.startEnumSelector(Text.translatable("lifeline.config.display_condition"), DisplayCondition.class, config.displayCondition)
+                .setTooltip(Text.translatable("lifeline.config.display_condition.tooltip"))
+                .setDefaultValue(DisplayCondition.DAMAGED)
+                .setSaveConsumer(value -> { config.displayCondition = value; config.save(); })
                 .build());
 
         return builder.build();

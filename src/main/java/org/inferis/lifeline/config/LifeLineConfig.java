@@ -24,8 +24,13 @@ public class LifeLineConfig {
     }
     public DisplayMode displayMode = DisplayMode.BOTH;
     public boolean renderingEnabled = true;
+    public enum DisplayCondition {
+        ALWAYS,
+        DAMAGED
+    }
+    public DisplayCondition displayCondition = DisplayCondition.DAMAGED;
 
-        public void save() {
+    public void save() {
         var file = new File(CONFIG_FILE);
         try {
             var writer = Files.asCharSink(file, Charsets.UTF_8);
@@ -49,6 +54,8 @@ public class LifeLineConfig {
 
             renderingEnabled = loadedConfig.renderingEnabled;
             displayMode = loadedConfig.displayMode;
+            displayCondition = loadedConfig.displayCondition;
+            
             return true;
         }
         catch (FileNotFoundException e) {

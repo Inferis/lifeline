@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.inferis.lifeline.config.LifeLineConfig.DisplayCondition;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
@@ -89,12 +91,18 @@ public class EntityTracker {
     }
 
     private boolean shouldRenderOverEntity(LivingEntity entity, ClientPlayerEntity player) {
-        return entity != null &&
+        var shouldRender = entity != null &&
             !entity.isRegionUnloaded() &&
             entity.isAlive() &&
             entity.isLiving() &&
             player.getVehicle() != entity &&
             !entity.isInvisibleTo(player);
+
+        if (shouldRender && LifeLine.CONFIG.displayCondition == DisplayCondition.DAMAGED) {
+            shouldRender = entity.getHealth() < entity.getMaxHealth();
+        }
+
+        return shouldRender;
     }
 
     private LivingEntity entityFromUUID(UUID uuid) {

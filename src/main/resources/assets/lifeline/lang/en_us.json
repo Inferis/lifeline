@@ -2,5 +2,7 @@
     "lifeline.config.title": "LifeLine",
     "lifeline.config.common": "Common",
     "lifeline.config.rendering_enabled": "Display enabled",
-    "lifeline.config.display_mode": "Display mode"
+    "lifeline.config.display_mode": "Display mode",
+    "lifeline.config.display_condition": "Display condition",
+    "lifeline.config.display_condition.tooltip": "When to display the life line.\nALWAYS: always show indicator.\nDAMAGED: only show indicator when entity is damaged."
 }
